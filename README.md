@@ -1,29 +1,56 @@
-# Dino Game - Game Dev
+# Pixel Runner
 
-[<img src="cover.png" width="80%" >](https://youtu.be/ooru4pyEv1I)
+Pixel Runner is a 2D endless runner game where the player controls a character that must avoid obstacles and collect coins to achieve the highest score possible.
 
-### YouTube Tutorial:
+## Table of Contents
 
-https://youtu.be/ooru4pyEv1I
+- [Installation](#installation)
+- [Gameplay](#gameplay)
+- [Controls](#controls)
+- [Contributing](#contributing)
+- [Technologies Used](#technologies-used)
+- [How to Play](#how-to-play)
+- [Screenshots](#screenshots)
 
-### Try the game here:
+## Installation
 
-https://codingwith-adam.github.io/dino-game/index.html
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/fitiha/Pixel-Runner.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd Pixel-Runner
+   ```
+3. Open `index.html` in your web browser.
 
-(On a mobile device play in landscape orientation for the best experience)
+## Gameplay
 
-In this exciting tutorial we are going to build a clone of the chrome dinosaur game with Javascript and a HTML Canvas. This version of the game can be played on a touch screen or with a keyboard. The game will scale to fit on any size screen.
+In Pixel Runner, you control a character that runs automatically. Your goal is to avoid obstacles score. The game gets progressively harder as you advance.
 
-The goal of the game is for the dinosaur to avoid the obstacles by jumping over them. As the dinosaur runs along the desert it will encounter cactuses. If you don't jump over them it's game over. Our dino can perform a low or high jump. A low jump is achieved with a quick tap of the screen or quick press of the space bar. A high jump requires taping the screen longer or pressing the space bar longer.
+## Controls
 
-### We will cover the following topics and more:
+- **Spacebar**: Jump
 
-- Game loop
-- Animation
-- Collision detection
-- Scaling a game to fit to any size screen.
-- How to take into account different frame rates.
-- Randomly generating enemy sprites(cactuses)
-- and much more!
+## Contributing
 
-If you enjoy this tutorial please subscribe, like and share on YouTube.
+Contributions are welcome! Please fork the repository and create a pull request with your changes. Make sure to follow the coding standards and write tests for new features.
+
+## Technologies Used
+
+- HTML5
+- CSS3
+- JavaScript (ES6)
+- Canvas API
+
+## How to Play
+
+1. Open `index.html` in your web browser.
+2. Use the character creator to design your character.
+3. Click the "Play Game" button to start the game.
+4. Avoid obstacles and try to achieve the highest score possible.
+
+## Screenshots
+
+![Character Creator](screenshots/character_creator.png)
+![Gameplay](screenshots/gameplay.png)

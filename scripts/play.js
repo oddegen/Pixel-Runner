@@ -10,9 +10,9 @@ const GAME_SPEED_START = 1; // 1.0
 const GAME_SPEED_INCREMENT = 0.00001;
 
 const GAME_WIDTH = 800;
-const GAME_HEIGHT = 200;
-const PLAYER_WIDTH = 88 / 1.5; //58
-const PLAYER_HEIGHT = 94 / 1.5; //62
+const GAME_HEIGHT = 300; // Increased height to fit 30x30 character
+const PLAYER_WIDTH = 100; // Adjusted to fit 30x30 character
+const PLAYER_HEIGHT = 100;
 const MAX_JUMP_HEIGHT = GAME_HEIGHT;
 const MIN_JUMP_HEIGHT = 150;
 const GROUND_WIDTH = 2400;
@@ -27,7 +27,6 @@ const CACTI_CONFIG = [
 const characterDesign =
   JSON.parse(localStorage.getItem("characterDesign")) || [];
 
-//Game Objects
 let player = null;
 let ground = null;
 let cactiController = null;
@@ -95,7 +94,6 @@ function setScreen() {
 }
 
 setScreen();
-//Use setTimeout on Safari mobile rotation otherwise works fine on desktop
 window.addEventListener("resize", () => setTimeout(setScreen, 500));
 
 if (screen.orientation) {
@@ -113,7 +111,6 @@ function getScaleRatio() {
     document.documentElement.clientWidth
   );
 
-  //window is wider than the game width
   if (screenWidth / screenHeight < GAME_WIDTH / GAME_HEIGHT) {
     return screenWidth / GAME_WIDTH;
   } else {
@@ -181,7 +178,6 @@ function gameLoop(currentTime) {
   clearScreen();
 
   if (!gameOver && !waitingToStart) {
-    //Update game objects
     ground.update(gameSpeed, frameTimeDelta);
     cactiController.update(gameSpeed, frameTimeDelta);
     player.update(gameSpeed, frameTimeDelta);
@@ -195,7 +191,6 @@ function gameLoop(currentTime) {
     score.setHighScore();
   }
 
-  //Draw game objects
   ground.draw();
   cactiController.draw();
   player.draw();

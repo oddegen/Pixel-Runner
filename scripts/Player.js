@@ -1,7 +1,9 @@
+import Graphics from "./Graphics.js";
+
 export default class Player {
   WALK_ANIMATION_TIMER = 200;
   walkAnimationTimer = this.WALK_ANIMATION_TIMER;
-  customCharacterImages = []; // Array to hold custom character images
+  customCharacterImages = [];
 
   jumpPressed = false;
   jumpInProgress = false;
@@ -30,63 +32,61 @@ export default class Player {
     this.y = this.canvas.height - this.height - 1.5 * scaleRatio;
     this.yStandingPosition = this.y;
 
-    // Load custom character
     this.loadCustomCharacter(characterDesign);
 
-    // Keyboard event listeners
     window.removeEventListener("keydown", this.keydown);
     window.removeEventListener("keyup", this.keyup);
 
     window.addEventListener("keydown", this.keydown);
     window.addEventListener("keyup", this.keyup);
-
-    // Touch event listeners
-    window.removeEventListener("touchstart", this.touchstart);
-    window.removeEventListener("touchend", this.touchend);
-
-    window.addEventListener("touchstart", this.touchstart);
-    window.addEventListener("touchend", this.touchend);
   }
 
-  // Load custom character from the provided design
   loadCustomCharacter(design) {
     const canvas = document.createElement("canvas");
-    canvas.width = 100;
-    canvas.height = 100;
+    canvas.width = 120;
+    canvas.height = 120;
     const ctx = canvas.getContext("2d");
-    const cellSize = 6.25; // 16x16 grid (100 / 16 = 6.25)
+    const cellSize = 4;
 
-    // Draw the custom character based on the design
-    for (let i = 0; i < 256; i++) {
+    const graphics = new Graphics(ctx, canvas.width, canvas.height);
+
+    for (let i = 0; i < 900; i++) {
       if (design[i]) {
-        const x = (i % 16) * cellSize;
-        const y = Math.floor(i / 16) * cellSize;
-        ctx.fillStyle = design[i]; // Use the color from the design
-        ctx.fillRect(x, y, cellSize, cellSize);
+        const x = (i % 30) * cellSize;
+        const y = Math.floor(i / 30) * cellSize;
+
+        graphics.drawLine(x, y, x + cellSize, y, design[i]); // Top line
+        graphics.drawLine(
+          x + cellSize,
+          y,
+          x + cellSize,
+          y + cellSize,
+          design[i]
+        ); // Right line
+        graphics.drawLine(
+          x + cellSize,
+          y + cellSize,
+          x,
+          y + cellSize,
+          design[i]
+        ); // Bottom line
+        graphics.drawLine(x, y + cellSize, x, y, design[i]); // Left line
+
+        graphics.floodFill(x + 1, y + 1, design[i], "#000000");
       }
     }
 
-    // Create an image from the canvas
+    graphics.render();
+
     const customCharacterImage = new Image();
     customCharacterImage.src = canvas.toDataURL();
 
-    // Wait for the image to load before using it
     customCharacterImage.onload = () => {
-      this.customCharacterImages = [customCharacterImage]; // Only one image for simplicity
-      this.image = this.customCharacterImages[0]; // Set the initial image
+      this.customCharacterImages = [customCharacterImage];
+      this.image = this.customCharacterImages[0];
     };
   }
 
-  // Touch event handlers
-  touchstart = () => {
-    this.jumpPressed = true;
-  };
-
-  touchend = () => {
-    this.jumpPressed = false;
-  };
-
-  // Keyboard event handlers
   keydown = (event) => {
     if (event.code === "Space") {
       this.jumpPressed = true;
@@ -99,18 +99,16 @@ export default class Player {
     }
   };
 
-  // Update the player's state
   update(gameSpeed, frameTimeDelta) {
     this.run(gameSpeed, frameTimeDelta);
 
     if (this.jumpInProgress) {
-      this.image = this.customCharacterImages[0]; // Use the custom character image
+      this.image = this.customCharacterImages[0];
     }
 
     this.jump(frameTimeDelta);
   }
 
-  // Handle jumping logic
   jump(frameTimeDelta) {
     if (this.jumpPressed) {
       this.jumpInProgress = true;
@@ -138,22 +136,13 @@ export default class Player {
     }
   }
 
-  // Handle running animation
   run(gameSpeed, frameTimeDelta) {
     if (this.walkAnimationTimer <= 0) {
-      // Switch between custom character images for animation (if multiple images are available)
-      if (this.customCharacterImages.length > 1) {
-        this.image =
-          this.customCharacterImages[
-            this.image === this.customCharacterImages[0] ? 1 : 0
-          ];
-      }
       this.walkAnimationTimer = this.WALK_ANIMATION_TIMER;
     }
     this.walkAnimationTimer -= frameTimeDelta * gameSpeed;
   }
 
-  // Draw the player on the canvas
   draw() {
     if (this.image && this.image.complete) {
       this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);

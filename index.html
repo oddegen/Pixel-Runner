@@ -2,45 +2,77 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dino Game</title>
+    <title>Pixel Runner</title>
     <style>
-      * {
-        padding: 0px;
-        margin: 0px;
-      }
       body {
         display: flex;
+        flex-direction: row;
         align-items: center;
-        justify-content: center;
-        flex-direction: column;
+        justify-content: space-between;
         height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
 
-        user-select: none;
-        touch-action: none;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        outline: none;
-        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(30, 10px);
+        grid-template-rows: repeat(30, 10px);
+        gap: 1px;
       }
-      canvas {
-        border: 0.1px solid grey;
+      .cell {
+        width: 10px;
+        height: 10px;
+        border: 1px solid #ddd;
+        cursor: pointer;
       }
-      a {
-        color: rgb(161, 157, 157);
+      .cell.selected {
+        border: 1px solid #000;
       }
-      .separator {
-        color: grey;
+      .preview {
+        margin-top: 50px;
+        width: 300px;
+        height: 300px;
+        border: 1px solid #000;
+      }
+      .controls {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .color-picker {
+        display: flex;
+        gap: 5px;
+      }
+      .color-option {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #000;
+        cursor: pointer;
       }
     </style>
-    <script src="index.js" defer type="module"></script>
   </head>
-  <body>
-    <canvas id="game"></canvas>
+  <body style="padding: 0 100px">
+    <div>
+      <h1 style="margin: 0; margin-bottom: 10px">Character Creator</h1>
+      <div class="grid" id="grid"></div>
+    </div>
+    <div>
+      <div class="preview" id="preview"></div>
+      <div class="controls">
+        <div class="color-picker" id="colorPicker"></div>
+        <button id="clearButton">Clear</button>
+        <button id="playButton">Play Game</button>
+      </div>
+    </div>
+
+    <script type="module" src="./scripts/index.js"></script>
   </body>
 </html>

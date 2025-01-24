@@ -11,19 +11,19 @@ export default class Graphics {
     const rgba = this.getRGBA(color);
     const pixelIndex = (y * this.width + x) * 4;
 
-    this.pixels[pixelIndex] = rgba[0]; // R
-    this.pixels[pixelIndex + 1] = rgba[1]; // G
-    this.pixels[pixelIndex + 2] = rgba[2]; // B
-    this.pixels[pixelIndex + 3] = rgba[3]; // A
+    this.pixels[pixelIndex] = rgba[0];
+    this.pixels[pixelIndex + 1] = rgba[1];
+    this.pixels[pixelIndex + 2] = rgba[2];
+    this.pixels[pixelIndex + 3] = rgba[3];
   }
 
   getPixel(x, y) {
     const pixelIndex = (y * this.width + x) * 4;
     return [
-      this.pixels[pixelIndex], // R
-      this.pixels[pixelIndex + 1], // G
-      this.pixels[pixelIndex + 2], // B
-      this.pixels[pixelIndex + 3], // A
+      this.pixels[pixelIndex],
+      this.pixels[pixelIndex + 1],
+      this.pixels[pixelIndex + 2],
+      this.pixels[pixelIndex + 3],
     ];
   }
 

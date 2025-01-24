@@ -1,26 +1,26 @@
 import Player from "./Player.js";
 import Ground from "./Ground.js";
-import CactiController from "./CactiController.js";
+import Controller from "./Controller.js";
 import Score from "./Score.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-const GAME_SPEED_START = 1; // 1.0
+const GAME_SPEED_START = 1;
 const GAME_SPEED_INCREMENT = 0.00001;
 
 const GAME_WIDTH = 800;
-const GAME_HEIGHT = 300; // Increased height to fit 30x30 character
-const PLAYER_WIDTH = 100; // Adjusted to fit 30x30 character
+const GAME_HEIGHT = 300;
+const PLAYER_WIDTH = 100;
 const PLAYER_HEIGHT = 100;
 const MAX_JUMP_HEIGHT = GAME_HEIGHT;
 const MIN_JUMP_HEIGHT = 150;
-const GROUND_WIDTH = 2400;
-const GROUND_HEIGHT = 24;
-const GROUND_AND_CACTUS_SPEED = 0.5;
+const GROUND_WIDTH = 800;
+const GROUND_HEIGHT = 300;
+const GROUND_AND_OBSTACLE_SPEED = 0.4;
 
-const CACTI_CONFIG = [
-  { width: 48 / 1.5, height: 100 / 1.5, image: "images/cactus_1.png" },
+const CONFIG = [
+  { width: 88, height: 120 / 1.5, image: "images/cow.png" },
   { width: 98 / 1.5, height: 100 / 1.5, image: "images/cactus_2.png" },
   { width: 68 / 1.5, height: 70 / 1.5, image: "images/cactus_3.png" },
 ];
@@ -29,7 +29,7 @@ const characterDesign =
 
 let player = null;
 let ground = null;
-let cactiController = null;
+let controller = null;
 let score = null;
 
 let scaleRatio = null;
@@ -55,32 +55,32 @@ function createSprites() {
     minJumpHeightInGame,
     maxJumpHeightInGame,
     scaleRatio,
-    characterDesign // Pass the character design to the Player class
+    characterDesign
   );
 
   ground = new Ground(
     ctx,
     groundWidthInGame,
     groundHeightInGame,
-    GROUND_AND_CACTUS_SPEED,
+    GROUND_AND_OBSTACLE_SPEED,
     scaleRatio
   );
 
-  const cactiImages = CACTI_CONFIG.map((cactus) => {
+  const obstacleImages = CONFIG.map((obstacles) => {
     const image = new Image();
-    image.src = cactus.image;
+    image.src = obstacles.image;
     return {
       image: image,
-      width: cactus.width * scaleRatio,
-      height: cactus.height * scaleRatio,
+      width: obstacles.width * scaleRatio,
+      height: obstacles.height * scaleRatio,
     };
   });
 
-  cactiController = new CactiController(
+  controller = new Controller(
     ctx,
-    cactiImages,
+    obstacleImages,
     scaleRatio,
-    GROUND_AND_CACTUS_SPEED
+    GROUND_AND_OBSTACLE_SPEED
   );
 
   score = new Score(ctx, scaleRatio);
@@ -143,7 +143,7 @@ function reset() {
   gameOver = false;
   waitingToStart = false;
   ground.reset();
-  cactiController.reset();
+  controller.reset();
   score.reset();
   gameSpeed = GAME_SPEED_START;
 }
@@ -179,20 +179,20 @@ function gameLoop(currentTime) {
 
   if (!gameOver && !waitingToStart) {
     ground.update(gameSpeed, frameTimeDelta);
-    cactiController.update(gameSpeed, frameTimeDelta);
+    controller.update(gameSpeed, frameTimeDelta);
     player.update(gameSpeed, frameTimeDelta);
     score.update(frameTimeDelta);
     updateGameSpeed(frameTimeDelta);
   }
 
-  if (!gameOver && cactiController.collideWith(player)) {
+  if (!gameOver && controller.collideWith(player)) {
     gameOver = true;
     setupGameReset();
     score.setHighScore();
   }
 
   ground.draw();
-  cactiController.draw();
+  controller.draw();
   player.draw();
   score.draw();
 
